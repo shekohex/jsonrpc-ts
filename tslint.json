@@ -1,0 +1,32 @@
+{
+  "defaultSeverity": "warning",
+  "extends": ["tslint:recommended"],
+  "jsRules": {
+    "no-unused-expression": true
+  },
+  "linterOptions": {
+    "exclude": ["src/generated/**/*.ts"]
+  },
+  "rules": {
+    "eofline": false,
+    "quotemark": [true, "single"],
+    "indent": true,
+    "member-access": [true],
+    "ordered-imports": [true],
+    "max-line-length": [true, 100],
+    "member-ordering": [true],
+    "curly": false,
+    "interface-name": [false],
+    "array-type": [true],
+    "no-empty-interface": true,
+    "no-empty": false,
+    "arrow-parens": false,
+    "object-literal-sort-keys": false,
+    "no-unused-expression": true,
+    "max-classes-per-file": [false, 10],
+    "variable-name": [true],
+    "one-line": [false],
+    "one-variable-per-declaration": [false]
+  },
+  "rulesDirectory": []
+}

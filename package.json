@@ -1,0 +1,29 @@
+{
+  "name": "jsonrpc-ts",
+  "version": "0.1.0",
+  "description": "Strongly Typed Fast and lightweight JSON RPC 2.0 Client for Nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shekohex/jsonrpc-ts.git"
+  },
+  "author": "Shady Khalifa <shekohex@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shekohex/jsonrpc-ts/issues"
+  },
+  "homepage": "https://github.com/shekohex/jsonrpc-ts#readme",
+  "devDependencies": {
+    "@types/jest": "^23.3.3",
+    "@types/node": "^10.11.4",
+    "jest": "^23.6.0",
+    "ts-jest": "^23.10.3"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "typescript": "^3.1.1"
+  }
+}
