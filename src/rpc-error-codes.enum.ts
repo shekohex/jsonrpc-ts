@@ -23,5 +23,5 @@ export enum RpcErrorCode {
   /**
    * Reserved for implementation-defined server-errors.
    */
-  SERVER_ERROR,
+  SERVER_ERROR = -32000,
 }
