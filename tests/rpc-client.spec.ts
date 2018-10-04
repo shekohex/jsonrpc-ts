@@ -1,22 +1,29 @@
 import * as RpcServer from 'http-jsonrpc-server';
 import { RpcClientOptions } from '../src/interfaces';
 import { RpcClient } from '../src/rpc-client';
+import { RpcError } from '../src/rpc-error';
+import { RpcErrorCode } from '../src/rpc-error-codes.enum';
 
 describe('RpcClient', async () => {
   // A scheme describe our rpc.
   interface MyRpcMethods {
     // sum is a rpc method that accepts 2 args both of type number.
     sum: [number, number];
+    noMethod: unknown;
+    invalidParms: string;
+    serverError: undefined;
   }
   let rpcClient: RpcClient<MyRpcMethods>;
   let rpcServer: any;
+
   beforeAll(async () => {
     const sum = ([x, y]: Array<number>) => x + y;
-    rpcServer = new RpcServer({
-      methods: {
-        sum,
-      },
-    });
+    const invalidParms = s => s.length;
+    const serverError = () => {
+      throw new Error('Server Error');
+    };
+
+    rpcServer = new RpcServer({ methods: { sum, invalidParms, serverError } });
     await rpcServer.listen(9090, 'localhost');
   });
 
@@ -34,7 +41,34 @@ describe('RpcClient', async () => {
   });
 
   it('should make request', async () => {
-    const res = await rpcClient.makeRequest<number>('sum', [3, 2], 123);
-    expect(res.data.result).toEqual(5);
+    const {
+      data: { result },
+    } = await rpcClient.makeRequest<number, any>('sum', [3, 2], 123);
+    expect(result).toEqual(5);
+  });
+
+  it('should throw error `method not found`', async () => {
+    const call = rpcClient.makeRequest('noMethod', undefined, 123);
+    await expect(call).rejects.toThrow();
+    await expect(call).rejects.toBeInstanceOf(RpcError);
+    await expect(call).rejects.toHaveProperty('err', { code: RpcErrorCode.METHOD_NOT_FOUND });
+  });
+
+  // I'm not sure of this test, althogth it passes !
+  it('should throw error `invalid params`', async () => {
+    const call = rpcClient.makeRequest('invalidParms', 1 as any, 123);
+    await expect(call).rejects.toThrow();
+    await expect(call).rejects.toBeInstanceOf(RpcError);
+    await expect(call).rejects.toHaveProperty('err', { code: RpcErrorCode.INVALID_PARAMS });
+  });
+
+  it('should throw error `server error` with message', async () => {
+    const call = rpcClient.makeRequest('serverError', undefined, 123);
+    await expect(call).rejects.toThrow();
+    await expect(call).rejects.toBeInstanceOf(RpcError);
+    await expect(call).rejects.toHaveProperty('err', {
+      code: RpcErrorCode.SERVER_ERROR,
+      message: 'Server Error',
+    });
   });
 });
