@@ -17,7 +17,6 @@
     "member-ordering": [true],
     "curly": false,
     "interface-name": [false],
-    "array-type": [true],
     "no-empty-interface": true,
     "no-empty": false,
     "arrow-parens": false,
@@ -26,6 +25,8 @@
     "max-classes-per-file": [false, 10],
     "variable-name": [true],
     "one-line": [false],
+    "array-type": [true, "generic"],
+    "object-literal-key-quotes": false,
     "one-variable-per-declaration": [false]
   },
   "rulesDirectory": []
