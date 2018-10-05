@@ -1,5 +1,5 @@
 import * as RpcServer from 'http-jsonrpc-server';
-import { RpcClientOptions } from '../src/interfaces';
+import { RpcClientOptions, RpcResponse } from '../src/interfaces';
 import { RpcClient } from '../src/rpc-client';
 import { RpcError } from '../src/rpc-error';
 import { RpcErrorCode } from '../src/rpc-error-codes.enum';
@@ -84,5 +84,25 @@ describe('RpcClient', async () => {
       code: RpcErrorCode.SERVER_ERROR,
       message: 'Server Error',
     });
+  });
+
+  it('should make batch requests', async () => {
+    const { data } = await rpcClient.makeBatchRequest<number, any>([
+      {
+        method: 'sum',
+        params: [3, 1],
+        id: 123,
+        jsonrpc: '2.0',
+      },
+      {
+        method: 'sum',
+        params: [3, 2],
+        id: 124,
+        jsonrpc: '2.0',
+      },
+    ]);
+    const [res1, res2] = data;
+    expect(res1.result).toEqual(4);
+    expect(res2.result).toEqual(5);
   });
 });
