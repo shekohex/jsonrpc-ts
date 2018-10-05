@@ -43,12 +43,17 @@ describe('RpcClient', async () => {
   it('should make request', async () => {
     const {
       data: { result },
-    } = await rpcClient.makeRequest<number, any>('sum', [3, 2], 123);
+    } = await rpcClient.makeRequest<number, any>({
+      method: 'sum',
+      params: [3, 2],
+      id: 123,
+      jsonrpc: '2.0',
+    });
     expect(result).toEqual(5);
   });
 
   it('should throw error `method not found`', async () => {
-    const call = rpcClient.makeRequest('noMethod', undefined, 123);
+    const call = rpcClient.makeRequest({ method: 'noMethod', id: 1, jsonrpc: '2.0' });
     await expect(call).rejects.toThrow();
     await expect(call).rejects.toBeInstanceOf(RpcError);
     await expect(call).rejects.toHaveProperty('err', { code: RpcErrorCode.METHOD_NOT_FOUND });
@@ -56,14 +61,23 @@ describe('RpcClient', async () => {
 
   // I'm not sure of this test, althogth it passes !
   it('should throw error `invalid params`', async () => {
-    const call = rpcClient.makeRequest('invalidParms', 1 as any, 123);
+    const call = rpcClient.makeRequest({
+      method: 'invalidParms',
+      params: 1 as any,
+      id: 12,
+      jsonrpc: '2.0',
+    });
     await expect(call).rejects.toThrow();
     await expect(call).rejects.toBeInstanceOf(RpcError);
     await expect(call).rejects.toHaveProperty('err', { code: RpcErrorCode.INVALID_PARAMS });
   });
 
   it('should throw error `server error` with message', async () => {
-    const call = rpcClient.makeRequest('serverError', undefined, 123);
+    const call = rpcClient.makeRequest({
+      method: 'serverError',
+      id: 1232,
+      jsonrpc: '2.0',
+    });
     await expect(call).rejects.toThrow();
     await expect(call).rejects.toBeInstanceOf(RpcError);
     await expect(call).rejects.toHaveProperty('err', {
