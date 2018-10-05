@@ -10,7 +10,9 @@ Fully tested to comply with the [official JSON-RPC 2.0 specification](https://ww
 By Declaring events using a simple interface mapping methods names to their parameters to get Strongly Typed, Fast and Modern Rpc client for your service.
 
 ## Install
-todo: Add NPM install Here
+```
+npm i jsonrpc-ts
+```
 
 ## Usage
 
