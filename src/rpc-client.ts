@@ -12,7 +12,7 @@ export class RpcClient<TMethods = any> {
    * Make JSON RPC Batch Request
    * @throws {AxiosError | RpcError} http/rpc error
    */
-  public async makeBatchRequest<TResponse, TError, K extends keyof TMethods = any>(
+  public async makeBatchRequest<K extends keyof TMethods, TResponse = any, TError = any>(
     requests: RpcBatchRequest<K, TMethods[K]>,
   ): Promise<AxiosResponse<RpcBatchResponse<TResponse, TError>>> {
     const response = await this.client.post<RpcBatchResponse<TResponse, TError>>(
@@ -31,7 +31,7 @@ export class RpcClient<TMethods = any> {
    * Make JSON RPC Request
    * @throws {AxiosError | RpcError} http/rpc error
    */
-  public async makeRequest<TResponse, TError, K extends keyof TMethods = any>(
+  public async makeRequest<K extends keyof TMethods, TResponse = any, TError = any>(
     request: RpcRequest<K, TMethods[K]>,
   ): Promise<AxiosResponse<RpcResponse<TResponse, TError>>> {
     const response = await this.client.post<RpcResponse<TResponse, TError>>(

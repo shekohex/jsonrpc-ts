@@ -9,6 +9,7 @@ describe('RpcClient', async () => {
   interface MyRpcMethods {
     // sum is a rpc method that accepts 2 args both of type number.
     sum: [number, number];
+    sumNamedParams: { x: number; y: number };
     noMethod: unknown;
     invalidParms: string;
     serverError: undefined;
@@ -17,13 +18,14 @@ describe('RpcClient', async () => {
   let rpcServer: any;
 
   beforeAll(async () => {
-    const sum = ([x, y]: Array<number>) => x + y;
+    const sum = ([x, y]: [number, number]) => x + y;
+    const sumNamedParams = ({ x, y }: { x: number; y: number }) => x + y;
     const invalidParms = s => s.length;
     const serverError = () => {
       throw new Error('Server Error');
     };
 
-    rpcServer = new RpcServer({ methods: { sum, invalidParms, serverError } });
+    rpcServer = new RpcServer({ methods: { sum, sumNamedParams, invalidParms, serverError } });
     await rpcServer.listen(9090, 'localhost');
   });
 
@@ -43,7 +45,31 @@ describe('RpcClient', async () => {
   it('should make request', async () => {
     const {
       data: { result },
-    } = await rpcClient.makeRequest<number, any>({
+    } = await rpcClient.makeRequest({
+      method: 'sum',
+      params: [3, 2],
+      id: 123,
+      jsonrpc: '2.0',
+    });
+    expect(result).toEqual(5);
+  });
+
+  it('should make request with named params', async () => {
+    const {
+      data: { result },
+    } = await rpcClient.makeRequest({
+      method: 'sumNamedParams',
+      params: { x: 1, y: 4 },
+      id: 123,
+      jsonrpc: '2.0',
+    });
+    expect(result).toEqual(5);
+  });
+
+  it('should make request', async () => {
+    const {
+      data: { result },
+    } = await rpcClient.makeRequest({
       method: 'sum',
       params: [3, 2],
       id: 123,
@@ -87,7 +113,7 @@ describe('RpcClient', async () => {
   });
 
   it('should make batch requests', async () => {
-    const { data } = await rpcClient.makeBatchRequest<number, any>([
+    const { data } = await rpcClient.makeBatchRequest([
       {
         method: 'sum',
         params: [3, 1],
