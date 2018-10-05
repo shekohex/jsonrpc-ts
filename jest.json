@@ -10,6 +10,19 @@
       "diagnostics": false
     }
   },
-  "coverageDirectory": "../coverage",
+  "collectCoverageFrom": [
+    "src/**/*.ts",
+    "!src/index.ts",
+    "!src/**/index.ts",
+    "!src/**/*.interface.ts",
+    "!src/**/*.enum.ts",
+    "!**/node_modules/**",
+    "!**/vendor/**"
+  ],
+  "coverageReporters": [
+    "json",
+    "lcov"
+  ],
+  "coverageDirectory": "./coverage",
   "testEnvironment": "node"
 }

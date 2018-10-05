@@ -4,7 +4,11 @@
   "description": "Strongly Typed Fast and lightweight JSON RPC 2.0 Client for Nodejs",
   "main": "index.js",
   "scripts": {
-    "test": "jest --config jest.json"
+    "test": "jest --config jest.json",
+    "test:watch": "jest --watch --config=jest.json",
+    "test:coverage": "jest --config=jest.json --coverage --coverageDirectory=coverage",
+    "build": "./scripts/build.sh",
+    "npm:publish": "cd lib && npm publish"
   },
   "repository": {
     "type": "git",
@@ -19,6 +23,7 @@
   "devDependencies": {
     "@types/jest": "^23.3.3",
     "@types/node": "^10.11.4",
+    "coveralls": "^3.0.2",
     "http-jsonrpc-server": "^1.0.0-beta.4",
     "jest": "^23.6.0",
     "ts-jest": "^23.10.3"

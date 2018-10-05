@@ -110,6 +110,11 @@ describe('RpcClient', async () => {
       code: RpcErrorCode.SERVER_ERROR,
       message: 'Server Error',
     });
+    try {
+      await call;
+    } catch (error) {
+      expect(error.getCode()).toEqual(RpcErrorCode.SERVER_ERROR);
+    }
   });
 
   it('should make batch requests', async () => {
