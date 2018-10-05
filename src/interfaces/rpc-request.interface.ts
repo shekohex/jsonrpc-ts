@@ -16,7 +16,7 @@ export interface RpcRequest<TMethod, TParam = any> {
    * A Structured value that holds the parameter values
    * to be used during the invocation of the method.
    */
-  params?: TParam | Array<TParam>;
+  params?: TParam;
 
   /**
    * An identifier established by the Client that **MUST** contain a `String`, `Number`,
