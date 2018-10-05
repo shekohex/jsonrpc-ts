@@ -19,7 +19,7 @@
     "inlineSourceMap": false,
     "inlineSources": false,
     "sourceMap": true,
-    "allowJs": true,
+    "allowJs": false,
     "lib": ["esnext"],
     "outDir": "./dist",
     "baseUrl": "./src"

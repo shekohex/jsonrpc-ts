@@ -17,8 +17,8 @@ build() {
     tsc
     echo 'tsc exist with status code:' $?
     echo 'Copying Other files..'
-    cp -rf package.json lib
-    cp -rf README.md lib
+    cp -rf package.json dist
+    cp -rf README.md dist
     echo 'Done.'
     echo '--------'
 }

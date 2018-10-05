@@ -8,7 +8,7 @@
     "test:watch": "jest --watch --config=jest.json",
     "test:coverage": "jest --config=jest.json --coverage --coverageDirectory=coverage",
     "build": "./scripts/build.sh",
-    "npm:publish": "cd lib && npm publish"
+    "npm:publish": "cd dist && npm publish"
   },
   "repository": {
     "type": "git",
