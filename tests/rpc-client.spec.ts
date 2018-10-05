@@ -1,5 +1,5 @@
 import * as RpcServer from 'http-jsonrpc-server';
-import { RpcClientOptions, RpcResponse } from '../src/interfaces';
+import { RpcClientOptions } from '../src/interfaces';
 import { RpcClient } from '../src/rpc-client';
 import { RpcError } from '../src/rpc-error';
 import { RpcErrorCode } from '../src/rpc-error-codes.enum';
