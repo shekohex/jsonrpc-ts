@@ -22,7 +22,7 @@
   "homepage": "https://github.com/shekohex/jsonrpc-ts#readme",
   "devDependencies": {
     "@types/jest": "^23.3.3",
-    "@types/node": "^10.11.4",
+    "@types/node": "^10.12.10",
     "coveralls": "^3.0.2",
     "http-jsonrpc-server": "^1.0.0-beta.4",
     "jest": "^23.6.0",
