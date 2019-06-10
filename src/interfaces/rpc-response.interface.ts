@@ -5,7 +5,7 @@ import { RpcResponseError } from './rpc-response-error.interface';
  * except for in the case of Notifications.
  * The Response is expressed as a single JSON Object
  */
-export interface RpcResponse<TResult = any, TErrorData = any> {
+export interface RpcResponse<TResult, TErrorData = any> {
   /**
    * A String specifying the version of the JSON-RPC protocol.
    * **MUST** be exactly "2.0".

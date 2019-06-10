@@ -4,12 +4,16 @@ import { RpcClient } from '../src/rpc-client';
 import { RpcError } from '../src/rpc-error';
 import { RpcErrorCode } from '../src/rpc-error-codes.enum';
 
-describe('RpcClient', async () => {
+describe('RpcClient', () => {
   // A scheme describe our rpc.
   interface MyRpcMethods {
     // sum is a rpc method that accepts 2 args both of type number.
     sum: [number, number];
-    sumNamedParams: { x: number; y: number };
+    sumWithReturnType: ({ x, y }: { x: number; y: number }) => number;
+    sumNamedParams: {
+      x: number;
+      y: number;
+    };
     noMethod: unknown;
     invalidParms: string;
     serverError: undefined;
@@ -20,19 +24,31 @@ describe('RpcClient', async () => {
   beforeAll(async () => {
     const sum = ([x, y]: [number, number]) => x + y;
     const sumNamedParams = ({ x, y }: { x: number; y: number }) => x + y;
+    const sumWithReturnType = sumNamedParams;
     const invalidParms = s => s.length;
     const serverError = () => {
       throw new Error('Server Error');
     };
 
-    rpcServer = new RpcServer({ methods: { sum, sumNamedParams, invalidParms, serverError } });
+    rpcServer = new RpcServer({
+      methods: {
+        sum,
+        sumNamedParams,
+        sumWithReturnType,
+        invalidParms,
+        serverError,
+      },
+    });
     await rpcServer.listen(9090, 'localhost');
   });
 
   beforeEach(async () => {
     const opts: RpcClientOptions = {
       url: 'http://localhost:9090/',
-      headers: { 'content-type': 'application/json', accept: 'application/json' },
+      headers: {
+        'content-type': 'application/json',
+        accept: 'application/json',
+      },
     };
     rpcClient = new RpcClient<MyRpcMethods>(opts);
   });
@@ -46,8 +62,8 @@ describe('RpcClient', async () => {
     const {
       data: { result },
     } = await rpcClient.makeRequest({
-      method: 'sum',
-      params: [3, 2],
+      method: 'sumWithReturnType',
+      params: { x: 3, y: 2 },
       id: 123,
       jsonrpc: '2.0',
     });
@@ -79,10 +95,16 @@ describe('RpcClient', async () => {
   });
 
   it('should throw error `method not found`', async () => {
-    const call = rpcClient.makeRequest({ method: 'noMethod', id: 1, jsonrpc: '2.0' });
+    const call = rpcClient.makeRequest({
+      method: 'noMethod',
+      id: 1,
+      jsonrpc: '2.0',
+    });
     await expect(call).rejects.toThrow();
     await expect(call).rejects.toBeInstanceOf(RpcError);
-    await expect(call).rejects.toHaveProperty('err', { code: RpcErrorCode.METHOD_NOT_FOUND });
+    await expect(call).rejects.toHaveProperty('err', {
+      code: RpcErrorCode.METHOD_NOT_FOUND,
+    });
   });
 
   // I'm not sure of this test, althogth it passes !
@@ -95,7 +117,9 @@ describe('RpcClient', async () => {
     });
     await expect(call).rejects.toThrow();
     await expect(call).rejects.toBeInstanceOf(RpcError);
-    await expect(call).rejects.toHaveProperty('err', { code: RpcErrorCode.INVALID_PARAMS });
+    await expect(call).rejects.toHaveProperty('err', {
+      code: RpcErrorCode.INVALID_PARAMS,
+    });
   });
 
   it('should throw error `server error` with message', async () => {
