@@ -21,15 +21,15 @@
   },
   "homepage": "https://github.com/shekohex/jsonrpc-ts#readme",
   "devDependencies": {
-    "@types/jest": "^24.0.0",
-    "@types/node": "^12.0.0",
-    "coveralls": "^3.0.2",
-    "http-jsonrpc-server": "^1.0.0-beta.4",
-    "jest": "^24.8.0",
+    "@types/jest": "^24.9.1",
+    "@types/node": "^12.12.48",
+    "coveralls": "^3.1.0",
+    "http-jsonrpc-server": "^1.1.0",
+    "jest": "^26.1.0",
     "ts-jest": "^26.1.1"
   },
   "dependencies": {
-    "axios": "^0.19.0",
-    "typescript": "^3.1.1"
+    "axios": "^0.19.2",
+    "typescript": "^3.9.6"
   }
 }
