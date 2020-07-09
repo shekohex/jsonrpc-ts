@@ -10,4 +10,9 @@ export class RpcError<TError = any> extends Error {
   public getCode(): RpcErrorCode | number {
       return this.err.code;
   }
+
+  public getData(): TError | undefined {
+      return this.err.data;
+  }
+
 }

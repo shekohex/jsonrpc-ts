@@ -2,6 +2,7 @@ import * as RpcServer from 'http-jsonrpc-server';
 import { RpcClientOptions } from '../src/interfaces';
 import { RpcClient } from '../src/rpc-client';
 import { RpcError } from '../src/rpc-error';
+import { RpcResponseError } from '../src/interfaces';
 import { RpcErrorCode } from '../src/rpc-error-codes.enum';
 
 describe('RpcClient', () => {
@@ -36,7 +37,7 @@ describe('RpcClient', () => {
         sumNamedParams,
         sumWithReturnType,
         invalidParms,
-        serverError,
+        serverError
       },
     });
     await rpcServer.listen(9090, 'localhost');
@@ -140,6 +141,19 @@ describe('RpcClient', () => {
       expect(error.getCode()).toEqual(RpcErrorCode.SERVER_ERROR);
     }
   });
+
+    // For this particular test we can't use the RpcServer instance because
+    // it doesn't expose a way to provoke an rpcError with data. 
+  it('should expose a data property on RpcError', async () => {
+    const data = {test: "test"}
+    const rpcError: RpcResponseError = {
+      code: RpcErrorCode.SERVER_ERROR,
+      message: 'Server Error',
+      data: data
+    }
+    const error = new RpcError(rpcError)
+    expect(error.getData()).toEqual(data);
+  });  
 
   it('should make batch requests', async () => {
     const { data } = await rpcClient.makeBatchRequest([
