@@ -1,6 +1,6 @@
 {
   "name": "jsonrpc-ts",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Strongly Typed Fast and lightweight JSON RPC 2.0 Client for Nodejs",
   "main": "index.js",
   "scripts": {
@@ -25,11 +25,11 @@
     "@types/node": "^12.12.48",
     "coveralls": "^3.1.0",
     "http-jsonrpc-server": "^1.1.0",
-    "jest": "^26.1.0",
-    "ts-jest": "^26.1.1"
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1"
   },
   "dependencies": {
-    "axios": "^0.19.2",
-    "typescript": "^3.9.6"
+    "axios": "^1.5.1",
+    "typescript": "^5.2"
   }
 }
